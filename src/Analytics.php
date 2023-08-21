@@ -181,8 +181,8 @@ class Analytics
         int $offset = 0,
         FilterExpression $dimensionFilter = null,
         bool $keepEmptyRows = false,
+        string $report = 'RunReport',
     ): Collection {
-        dd('test');
         return $this->client->get(
             $this->propertyId,
             $period,
@@ -192,7 +192,8 @@ class Analytics
             $orderBy,
             $offset,
             $dimensionFilter,
-            $keepEmptyRows
+            $keepEmptyRows,
+            $report,
         );
     }
 }

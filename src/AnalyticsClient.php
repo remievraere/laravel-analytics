@@ -37,22 +37,36 @@ class AnalyticsClient
         int $offset = 0,
         FilterExpression $dimensionFilter = null,
         bool $keepEmptyRows = false,
+        string $report = 'RunReport',
     ): Collection {
         $typeCaster = resolve(TypeCaster::class);
 
-        $response = $this->runReport([
-            'property' => "properties/{$propertyId}",
-            'dateRanges' => [
-                $period->toDateRange(),
-            ],
-            'metrics' => $this->getFormattedMetrics($metrics),
-            'dimensions' => $this->getFormattedDimensions($dimensions),
-            'limit' => $maxResults,
-            'offset' => $offset,
-            'orderBys' => $orderBy,
-            'dimensionFilter' => $dimensionFilter,
-            'keepEmptyRows' => $keepEmptyRows,
-        ]);
+        if ($report === 'RunRealtimeReport') {
+            $response = $this->runRealTimeReport([
+                'property' => "properties/{$propertyId}",
+                'metrics' => $this->getFormattedMetrics($metrics),
+                'dimensions' => $this->getFormattedDimensions($dimensions),
+                'limit' => $maxResults,
+                'offset' => $offset,
+                'orderBys' => $orderBy,
+                'dimensionFilter' => $dimensionFilter,
+                'keepEmptyRows' => $keepEmptyRows,
+            ]);
+        } else {
+            $response = $this->runReport([
+                'property' => "properties/{$propertyId}",
+                'dateRanges' => [
+                    $period->toDateRange(),
+                ],
+                'metrics' => $this->getFormattedMetrics($metrics),
+                'dimensions' => $this->getFormattedDimensions($dimensions),
+                'limit' => $maxResults,
+                'offset' => $offset,
+                'orderBys' => $orderBy,
+                'dimensionFilter' => $dimensionFilter,
+                'keepEmptyRows' => $keepEmptyRows,
+            ]);
+        }
 
         $result = collect();
 
