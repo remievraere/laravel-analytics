@@ -182,6 +182,7 @@ class Analytics
         FilterExpression $dimensionFilter = null,
         bool $keepEmptyRows = false,
     ): Collection {
+        dd('test');
         return $this->client->get(
             $this->propertyId,
             $period,
